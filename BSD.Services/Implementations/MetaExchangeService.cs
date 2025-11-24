@@ -55,28 +55,28 @@ public class MetaExchangeService : IMetaExchangeService
 
         while (amount > 0)
         {
-            //are there any more orders in order books?
+            // are there any more orders in order books?
             if (bestOrders.Count == 0)
             {
                 // couldn't fulfill order, returning partial order list
                 return executionOrders;
             }
 
-            //top element in bestOrders queue is best from the best so use it for execution order
+            // top element in bestOrders queue is best from the best so use it for execution order
             var bestOrder = bestOrders.Peek();
 
-            //get cryptoexchange balance of corresponding order book
+            // get cryptoexchange balance of corresponding order book
             if (!balanceDict.TryGetValue(bestOrder.CryptoExchangeId, out var bestOrderBalance))
             {
                 // order book has no corresponding cryptoexchange
-                //so remove it from queue
+                // so remove it from queue
                 bestOrders.Dequeue();
                 continue;
             }
 
             var executionAmount = GetExecutionAmount(amount, bestOrderBalance, orderType, bestOrder);
 
-            //this should not happen but just in case
+            // this should not happen but just in case
             if (executionAmount <= 0)
             {
                 bestOrders.Dequeue();
@@ -91,7 +91,7 @@ public class MetaExchangeService : IMetaExchangeService
                 OrderType = orderType
             });
 
-            //decrease amount of coins we still need to buy or sell
+            // decrease amount of coins we still need to buy or sell
             amount -= executionAmount;
                 
             if (amount <= 0)
@@ -99,20 +99,20 @@ public class MetaExchangeService : IMetaExchangeService
                 return executionOrders;
             }
 
-            //we need to update cryptoexchange balance to determine if it have enough balance to process any more orders
+            // we need to update cryptoexchange balance to determine if it have enough balance to process any more orders
             bestOrderBalance.UpdateBalance(orderType, executionAmount, bestOrder.Order.Price);
 
             // remove best order from queue. 
             // note: there can be only one order from each order book in a queue. 
             bestOrders.Dequeue();
 
-            //are there any remaining orders in order book
+            // are there any remaining orders in order book
             var orders = orderBooks[bestOrder.OrderBookIndex].GetOrders(orderType);
             var hasNextOrderInBook = orders.Count > bestOrder.OrderIndex + 1;
 
-            //add new best order to queue only if
-            //there is enough balance in corresponding cryptoexchange
-            //and there is a next order in order book
+            // add new best order to queue only if
+            // there is enough balance in corresponding cryptoexchange
+            // and there is a next order in order book
             if (bestOrderBalance.HasRemainingBalance(orderType)
                 && hasNextOrderInBook)
             {
@@ -136,10 +136,10 @@ public class MetaExchangeService : IMetaExchangeService
 
     private decimal GetExecutionAmount(decimal amount, CryptoExchange bestOrderBalance, OrderType orderType, BestOrder bestOrder)
     {
-        //get available amount from corresponding crypto exchange
+        // get available amount from corresponding crypto exchange
         var availableBalanceAmount = bestOrderBalance.GetAvailableAmount(orderType, bestOrder.Order.Price);
 
-        //use smaller between what best order offers and what exchange balance is
+        // use smaller between what best order offers and what exchange balance is
         var availableAmount = Math.Min(availableBalanceAmount, bestOrder.Order.Amount);
 
         var executionAmount = Math.Min(availableAmount, amount);
@@ -149,16 +149,16 @@ public class MetaExchangeService : IMetaExchangeService
 
     private PriorityQueue<BestOrder, decimal> FillPriorityQueue(OrderType orderType, List<OrderBook> orderBooks)
     {
-        //to remember from which orderbook came best offer
+        // to remember from which orderbook came best offer
         int currentOrderBookIndex = 0;
 
-        //Using min heap priority queue with Ask orders for "Buy"
-        //and max heap with Bid orders for "Sell" order type
+        // Using min heap priority queue with Ask orders for "Buy"
+        // and max heap with Bid orders for "Sell" order type
         var bestOrders = orderType == OrderType.Buy
             ? new PriorityQueue<BestOrder, decimal>()
             : new PriorityQueue<BestOrder, decimal>(Comparer<decimal>.Create((x, y) => y.CompareTo(x)));
 
-        //fill bestOrders priority queue with one best order from each order book
+        // fill bestOrders priority queue with one best order from each order book
         foreach (OrderBook orderBook in orderBooks)
         {
             //orders are sorted, so the first one from an order book is the best one
@@ -199,7 +199,7 @@ public class MetaExchangeService : IMetaExchangeService
         {
             throw new ArgumentException("Crypto exchange data null or empty.");
         }
-        //we are getting order books from n cryptoexchanges so make sure list of cryptoexchanges is big enough
+        // we are getting order books from n cryptoexchanges so make sure list of cryptoexchanges is big enough
         if (orderBooks.Count > balance.Count)
         {
             throw new ArgumentException("Mismatch: more order books than balance entries.");

@@ -23,13 +23,15 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 EXPOSE 8080
 
-# Set environment to Development for Swagger
-ENV ASPNETCORE_ENVIRONMENT=Development
+# Set paths for Docker environment
+ENV ASPNETCORE_ENVIRONMENT=Development \
+    CryptoExchangeSettings__OrderBooksPath=/app/data/order_books_data \
+    CryptoExchangeSettings__CryptoExchangesPath=/app/data/crypto_exchanges
 
 # Copy published files
 COPY --from=publish /app/publish .
 
-# Copy data files
-COPY BSD.Api/Data ./Data
+# Copy data folder from solution root
+COPY data /app/data
 
 ENTRYPOINT ["dotnet", "BSD.Api.dll"]

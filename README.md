@@ -62,8 +62,8 @@ https://localhost:7267/swagger/index.html
 
 ```bash
 Basic usage:
-# From the BSD.ConsoleApp dir
-dotnet run buy 2 -n 2
+# From the solution root
+dotnet run --project BSD.ConsoleApp buy 2 -n 2
 ```
 
 ```bash
@@ -76,8 +76,8 @@ Required Arguments:
 
 Optional Arguments:
   -o <path>    : Path to order books file (default: ./data/order_books_data)
-  -c <path>    : Path to exchanges balance file (default: ./data/crypto_exchanges_balance.json)
-  -n <number>  : Maximum number of order books / crypto exchanges to load (default: 10000)
+  -c <path>    : Path to exchanges balance file (default: ./data/crypto_exchanges)
+  -n <number>  : Maximum number of order books / crypto exchanges to load (default: 10)
 
 Examples:
   dotnet run buy 10.5

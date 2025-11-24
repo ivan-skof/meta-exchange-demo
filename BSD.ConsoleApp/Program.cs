@@ -8,6 +8,10 @@ namespace BSD.ConsoleApp;
 
 class Program
 {
+    private const string DEFAULT_ORDER_BOOKS_DATA_PATH = ".\\data\\order_books_data";
+    private const string DEFAULT_CRYPTO_EXCHANGES_PATH = ".\\data\\crypto_exchanges";
+    private const int DEFAULT_MAX_ORDER_BOOKS = 10;
+
     static async Task Main(string[] args)
     {
         try
@@ -61,9 +65,9 @@ class Program
         }
 
         // default values for optional arguments
-        int maxOrderBooks = 10000;
-        string orderBooksPath = ".\\data\\order_books_data";
-        string exchangesPath = ".\\data\\crypto_exchanges_balance.json";
+        int maxOrderBooks = DEFAULT_MAX_ORDER_BOOKS;
+        string orderBooksPath = DEFAULT_ORDER_BOOKS_DATA_PATH;
+        string exchangesPath = DEFAULT_CRYPTO_EXCHANGES_PATH;
 
         for (int i = 2; i < args.Length; i++)
         {
@@ -106,8 +110,8 @@ class Program
         Console.WriteLine("  Amount       : Positive decimal number (coin amount)");
         Console.WriteLine("\nOptional Arguments:");
         Console.WriteLine("  -o <path>    : Path to order books file (default: ./data/order_books_data)");
-        Console.WriteLine("  -c <path>    : Path to exchanges balance file (default: ./data/crypto_exchanges_balance.json)");
-        Console.WriteLine("  -n <number>  : Maximum number of order books / crypto exchanges to load (default: 10000)");
+        Console.WriteLine("  -c <path>    : Path to exchanges balance file (default: ./data/crypto_exchanges)");
+        Console.WriteLine("  -n <number>  : Maximum number of order books / crypto exchanges to load (default: 10)");
         Console.WriteLine("\nExamples:");
         Console.WriteLine("  dotnet run buy 10.5");
         Console.WriteLine("  dotnet run sell 5 -n 10");

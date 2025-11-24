@@ -15,8 +15,4 @@
     <ProjectReference Include="..\BSD.Services\BSD.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
-
 </Project>

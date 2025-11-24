@@ -1,0 +1,21 @@
+# Build results
+**/bin/
+**/obj/
+**/out/
+
+# Visual Studio
+.vs/
+.vscode/
+
+# User-specific files
+*.user
+*.suo
+
+# Git
+.git/
+.gitignore
+
+# Others
+**/node_modules/
+**/.DS_Store
+**/Thumbs.db

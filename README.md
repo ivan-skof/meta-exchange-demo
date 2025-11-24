@@ -1,4 +1,4 @@
-# BSD MetaExchange demo
+# MetaExchange demo
 
 Web service and console app for computing the best execution plan across multiple crypto exchanges
 
@@ -84,4 +84,30 @@ Examples:
   dotnet run sell 5 -n 10
   dotnet run buy 3.2 -o books.txt -n 100
   dotnet run sell 7.8 -o books.txt -c exchanges.txt -n 50
+```
+
+## Running with Docker
+
+### Build and Run
+```bash
+# Build the image
+docker build -t bsd-metaexchange:latest -f Dockerfile .
+
+# Run the container
+docker run -d -p 8080:8080 --name bsd-metaexchange bsd-metaexchange:latest
+
+# View logs
+docker logs -f bsd-metaexchange
+```
+
+### Access
+- Swagger UI: http://localhost:8080/swagger
+- API: http://localhost:8080/api/MetaExchange/best-execution
+
+### Management
+```bash
+docker stop bsd-metaexchange     # Stop
+docker start bsd-metaexchange    # Start
+docker restart bsd-metaexchange  # Restart
+docker rm bsd-metaexchange       # Remove
 ```

@@ -15,6 +15,7 @@ namespace BSD.Api.Controllers
         private readonly ICryptoExchangeService _cryptoExchangeService;
         private readonly ILogger<MetaExchangeController> _logger;
 
+        /// <summary></summary>
         public MetaExchangeController(
             IMetaExchangeService metaExchangeService,
             ICryptoExchangeService cryptoExchangeService,

@@ -3,13 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BSD.Api.ExceptionHandlers;
 
+/// <summary></summary>
 public class GlobalExceptionHandler : IExceptionHandler
 {
     private readonly ILogger<GlobalExceptionHandler> _logger;
+    
+    /// <summary></summary>    
     public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
     {
         _logger = logger;
     }
+    
+    /// <summary></summary>
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
@@ -50,7 +55,7 @@ public class GlobalExceptionHandler : IExceptionHandler
             }
         };
 
-        httpContext.Response.StatusCode = problemDetails.Status.Value;
+        httpContext.Response.StatusCode = problemDetails.Status!.Value;
 
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 

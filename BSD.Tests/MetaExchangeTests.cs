@@ -259,7 +259,7 @@ public class MetaExchangeTests
     [Test]
     public void TestGetExecutionPlan_EmptyOrderBook()
     {
-        var orderBooks = new List<OrderBook>() { new OrderBook { Asks = null, Bids = [], CryptoExchangeId = 1 } };
+        var orderBooks = new List<OrderBook>() { new OrderBook { Asks = [], Bids = [], CryptoExchangeId = 1 } };
         
         var service = new MetaExchangeService();
         var result = service.GetBestExecution(OrderType.Buy, 9, orderBooks, exchangesBalance.Slice(0, 1));
